@@ -1,0 +1,33 @@
+from fastapi import FastAPI, Response, HTTPException
+from pydantic import BaseModel, Field
+from typing import Optional
+import datetime as dt
+
+app = FastAPI(title="OptiGenius Starter", version="0.1.0")
+
+
+class AppointmentIn(BaseModel):
+    name: str = Field(..., min_length=1)
+    phone: str = Field(..., min_length=1)
+    datetime: str
+    notes: Optional[str] = None
+
+
+class AppointmentOut(BaseModel):
+    status: str
+    received: AppointmentIn
+
+
+@app.get("/health")
+def health():
+    return {"ok": True}
+
+
+
+@app.post("/appointments", response_model=AppointmentOut)
+def create_appointment(payload: AppointmentIn):
+    try:
+        dt.datetime.fromisoformat(payload.datetime.replace("Z", "+00:00"))
+    except ValueError:
+        raise HTTPException(status_code=422, detail="Invalid datetime format")
+    return {"status": "ok", "received": payload}
