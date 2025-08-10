@@ -1,0 +1,30 @@
+# Python
+.venv/
+env/
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.log
+*.sqlite3
+*.db
+
+# Tests / Playwright / Pytest
+.pytest_cache/
+.playwright/
+playwright-report/
+
+# Tools & IDE
+.idea/
+.vscode/
+.DS_Store
+
+# Build & coverage
+dist/
+build/
+.coverage
+htmlcov/
+
+# Env files
+.env
+.env.*
